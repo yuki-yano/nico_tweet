@@ -1,0 +1,7 @@
+twitter:
+  consumer_key       : hoge
+  consumer_secret    : hoge
+  oauth_token        : hoge
+  oauth_token_secret : hoge
+log: hoge
+url: http://hoge/

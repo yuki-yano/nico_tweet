@@ -1,0 +1,5 @@
+/vendor/bundle
+/log/*
+/!log/.gitkeep
+/config/*
+!/config/template.yml

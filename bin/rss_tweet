@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'twitter'
+require 'open-uri'
+require 'rss'
+
+CONF_DIR = File.expand_path('../../config', __FILE__)
+yaml = ARGF.read()
+config = YAML.load(yaml)
+
+LOG_FILE_DIR = File.expand_path('../../log', __FILE__)
+LOG_FILE = LOG_FILE_DIR + '/' + config["log"]
+
+client = Twitter::REST::Client.new do |conf|
+  conf.consumer_key       = config['twitter']['consumer_key']
+  conf.consumer_secret    = config['twitter']['consumer_secret']
+  conf.oauth_token        = config['twitter']['oauth_token']
+  conf.oauth_token_secret = config['twitter']['oauth_token_secret']
+end
+
+logs = IO.read(LOG_FILE).split("\n")
+
+rss = RSS::Parser.parse(config['url'], true).channel.items.reverse
+rss.each do |item|
+  if !logs.include?(item.link) then
+    url = item.link.split('?').first
+    tag = '#' + url.split('/').pop
+    client.update('"' + item.title + '" - ' + url + ' ' + tag + ' が投稿されました')
+    open(LOG_FILE, "a").print(item.link + "\n")
+  end
+end
