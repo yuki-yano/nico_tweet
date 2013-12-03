@@ -4,6 +4,11 @@ require 'yaml'
 
 $:.unshift(File.dirname(__FILE__) + "/../lib")
 
+if ARGV.size == 0
+  puts "yamlファイルを指定してください"
+  exit
+end
+
 CONF_DIR = File.dirname(__FILE__) + "/../config"
 config = YAML.load(ARGF.read())
 
