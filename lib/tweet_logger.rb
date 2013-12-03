@@ -10,5 +10,6 @@ class TweetLogger
 
   def print(link)
     open(@file, "a").print(link + "\n")
+    @log.push link
   end
 end
