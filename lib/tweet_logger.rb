@@ -5,11 +5,11 @@ class TweetLogger
   end
 
   def include?(url)
-    return @log.include?(url)
+    @log.include? url
   end
 
-  def print(link)
-    open(@file, "a").print(link + "\n")
-    @log.push link
+  def print(url)
+    open(@file, "a").print(url + "\n")
+    @log.push url
   end
 end
