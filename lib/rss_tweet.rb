@@ -19,27 +19,27 @@ class RssTweet
   def tweet
     if @url.kind_of?(Array)
       @url.each do |u|
-        rss = rss_parse u
-        rss_tweet rss
+        rss = parse_rss u
+        tweet_rss rss
       end
-    else 
-      rss = rss_parse @url
-      rss_tweet rss
+    else
+      rss = parse_rss @url
+      tweet_rss rss
     end
   end
 
   private
-  def rss_parse(url)
+  def parse_rss(url)
     return RSS::Parser.parse(url, true).channel.items.reverse
   end
 
-  def rss_tweet(rss)
+  def tweet_rss(rss)
     rss.each do |item|
-      if !@tweet_logger.include?(item.link)
-        url = item.link.split('?').first
+      url = item.link.split('?').first
+      if !@tweet_logger.include?(url)
         tag = '#' + url.split('/').pop
         @client.update('"' + item.title + '" - ' + url + ' ' + tag + ' が投稿されました')
-        @tweet_logger.print(item.link)
+        @tweet_logger.print(url)
       end
     end
   end
