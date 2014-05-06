@@ -15,8 +15,8 @@ config = YAML.load(ARGF.read())
 LOG_FILE_DIR = File.dirname(__FILE__) + "/../log"
 log_file = LOG_FILE_DIR + '/' + config["log"]
 
-require 'rss_tweet'
+require 'nico_tweet'
 
 tweet_logger = TweetLogger.new(log_file)
-rss_tweet = RssTweet.new(config, tweet_logger)
-rss_tweet.tweet
+nico_tweet = NicoTweet.new(config, tweet_logger)
+nico_tweet.tweet

@@ -3,7 +3,7 @@ require 'open-uri'
 require 'rss'
 require 'tweet_logger'
 
-class RssTweet
+class NicoTweet
   def initialize(config, tweet_logger)
     @client = Twitter::REST::Client.new do |conf|
       conf.consumer_key       = config['twitter']['consumer_key']
