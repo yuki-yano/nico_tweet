@@ -2,6 +2,8 @@ require 'twitter'
 require 'open-uri'
 require 'rss'
 require 'tweet_logger'
+require 'uri'
+require 'net/http'
 
 class NicoTweet
   def initialize(config, tweet_logger)
@@ -30,7 +32,9 @@ class NicoTweet
       url = item.link.split('?').first
       tag = '#' + url.split('/').pop
       unless @tweet_logger.include?(url)
-        @client.update('"' + item.title + '" - ' + url + ' ' + tag + ' が投稿されました')
+        text = "\"#{item.title}\" - #{url} #{tag} が投稿されました"
+        Net::HTTP.get(URI.parse("https://slack.com/api/chat.postMessage?token=#{ENV['SLACK_TOKEN']}&channel=%23videos&text=#{URI.escape(text)}&pretty=1&username=bot&link_names=1"))
+        @client.update(text)
         @tweet_logger.print(url)
       end
     end
