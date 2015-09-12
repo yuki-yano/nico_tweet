@@ -33,7 +33,7 @@ class NicoTweet
       tag = '#' + url.split('/').pop
       unless @tweet_logger.include?(url)
         text = "\"#{item.title}\" - #{url} #{tag} が投稿されました"
-        Net::HTTP.get(URI.parse("https://slack.com/api/chat.postMessage?token=#{ENV['SLACK_TOKEN']}&channel=%23videos&text=#{URI.escape(text)}&pretty=1&username=bot&link_names=1"))
+        # Net::HTTP.get(URI.parse("https://slack.com/api/chat.postMessage?token=#{ENV['SLACK_TOKEN']}&channel=%23videos&text=#{URI.escape(text)}&pretty=1&username=bot&link_names=1"))
         @client.update(text)
         @tweet_logger.print(url)
       end
